@@ -12,6 +12,7 @@
 
   <link rel="stylesheet" href="config/assets/css/style.css">
   <link rel="stylesheet" href="config/assets/css/components.css">
+  <link rel="stylesheet" href="config/assets/bundles/pretty-checkbox/pretty-checkbox.min.css">
  
   <link rel="stylesheet" href="config/assets/css/custom.css">
   <link rel='shortcut icon' type='image/x-icon' href='config/assets/img/favicon.ico' />

@@ -7,14 +7,14 @@ if($_SERVER['HTTP_HOST'] == "localhost"){
     $servername = "localhost";
     $username = "root";
     $password = "";
-    $dbname ="familyTree";
+    $dbname ="zeroProject";
 
 } else {
 
     $servername = "localhost";
-    $username = "zspmhrph_familyUser";
-    $password = "pMBw9d58NRgXM2f";
-    $dbname ="zspmhrph_familyTree";
+    $username = "zerodayp_user";
+    $password = "m+aer7h*b{jB";
+    $dbname ="zerodayp_zerodayDb";
 }
 
 $dsn ="mysql:host=$servername;dbname=$dbname";
