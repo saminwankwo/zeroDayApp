@@ -8,7 +8,6 @@
 
   <link rel="stylesheet" href="config//assets/css/app.min.css">
   <link rel="stylesheet" href="config/assets/bundles/jquery-selectric/selectric.css">
-  <link rel="stylesheet" href="config/assets/bundles/izitoast/css/iziToast.min.css">
 
   <link rel="stylesheet" href="config/assets/css/style.css">
   <link rel="stylesheet" href="config/assets/css/components.css">

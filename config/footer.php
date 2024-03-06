@@ -6,8 +6,9 @@
   
   <script src="config/assets/js/page/auth-register.js"></script>
 
-  <script src="config/assets/bundles/izitoast/js/iziToast.min.js"></script>
-  <script src="config/assets/js/page/toastr.js"></script>
+  <!-- <script src="config/assets/bundles/izitoast/js/iziToast.min.js"></script>
+  <script src="config/assets/js/page/toastr.js"></script> -->
+  <!-- <script src="config/assets/bundles/sweetalert/sweetalert.min.js"></script> -->
 
   <script src="config/assets/js/scripts.js"></script>
  

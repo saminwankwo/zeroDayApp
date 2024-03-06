@@ -61,6 +61,7 @@ ALTER TABLE `business` ADD `securityType` VARCHAR(20) NOT NULL AFTER `addTime`;
 ALTER TABLE `business`
   ADD PRIMARY KEY (`bizId`);
 
+ALTER TABLE `createPassword` ADD `type` VARCHAR(20) NOT NULL AFTER `addtime`; 
 --
 -- Indexes for table `createPassword`
 --

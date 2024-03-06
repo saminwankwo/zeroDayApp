@@ -14,6 +14,17 @@ include('config/head.php');
               <div class="card-header">
                 <h4>Forgot Password</h4>
               </div>
+              <div class="p-2">
+                <?php
+                if(isset($_SESSION['error'])){
+                  echo "<div class='alert alert-danger text-center mt20'>
+                    <span>".$_SESSION['error']."</span
+                  </div>";
+          
+                  unset($_SESSION['error']);
+                }
+                ?>
+              </div>
               <div class="card-body">
                 <p class="text-muted">We will send a link to reset your password</p>
                 <form method="POST" action="actions.php?return=<?php echo basename(htmlspecialchars($_SERVER['PHP_SELF'])); ?>">

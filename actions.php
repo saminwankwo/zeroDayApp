@@ -60,20 +60,23 @@ if (isset($_POST['submit'])) {
 
                             if ($ins->execute()) {
                                 $last_id = $conn->lastInsertId();
-                                $passwordCreate = "INSERT INTO createPassword (BusId, token, expiryTime) 
-                                VALUES (:bus, :token, :expire)"; 
+                                $passwordCreate = "INSERT INTO createPassword (BusId, token, expiryTime, type) 
+                                VALUES (:bus, :token, :expire, :types)"; 
                                 if($stmt = $conn->prepare($passwordCreate)){
                                     
                                     $stmt->bindParam(":bus", $param_lastId, PDO::PARAM_STR);
                                     $stmt->bindParam(":token", $param_token, PDO::PARAM_STR);
                                     $stmt->bindParam(":expire", $param_expire, PDO::PARAM_STR);
+                                    $stmt->bindParam(":types", $param_type, PDO::PARAM_STR);
                                     
                                     $param_lastId = $last_id;
                                     $param_token = $key;
                                     $param_expire = $expDate;
+                                    $param_expire = $type;
 
                                     if($stmt->execute()){
                                         if(ResetPassword($fullName, $key, $compEmail, $type)){
+                                            $_SESSION['success'] = "Please check your email for further instructions  ";
                                             return header("location:success.php");
                                         } else {
                                             $_SESSION['error'] = "Oops! Something went wrong. Please try again later.";
@@ -99,6 +102,8 @@ if (isset($_POST['submit'])) {
                 }
             }
 
+        } else {
+            $_SESSION['error'] = "Invalid Email";
         }
     }
 
@@ -143,6 +148,8 @@ if (isset($_POST['submit'])) {
     $password = htmlspecialchars($_POST['password']);
     $ConfirmPassword = htmlspecialchars($_POST['confirm-password']);
 
+    $action = $_POST['action'];
+
     $hashedpassword = password_hash($password, PASSWORD_DEFAULT);
 
     $users = $conn->query("SELECT * FROM business WHERE bizId = '$user'");
@@ -162,11 +169,14 @@ if (isset($_POST['submit'])) {
             $param_id =  $user;
 
             if ($staffupdate->execute()) {
-                $delete = "DELETE FROM  createPassword WHERE BusId = :dmail";
+                $delete = "DELETE FROM  createPassword WHERE BusId = :dmail AND type = :actions";
                 $prepare = $conn->prepare($delete);
 
                 $prepare->bindParam(":dmail", $param_id, PDO::PARAM_STR);
+                $prepare->bindParam(":actions", $param_act, PDO::PARAM_STR);
+                
                 $param_id = $user;
+                $param_id = $action;
 
                 if ($prepare->execute()) {
                     $_SESSION['success'] = 'Good job, Your password has been set, Please login to continue';
@@ -205,6 +215,7 @@ if (isset($_POST['submit'])) {
     }
 
 } elseif (isset($_POST['forgotPass'])) {
+    
     $action = 'reset'; 
     $email = htmlspecialchars($_POST['email']);
 
@@ -218,16 +229,105 @@ if (isset($_POST['submit'])) {
         $addKey = substr(md5(uniqid(rand(),1)),3,10);
         $key = $key . $addKey;
 
-        $users = "SELECT * FROM business WHERE bizId = '$name'";
+        $users = "SELECT * FROM business WHERE bizId = '$email";
         $a = $conn->query($adminsql);
         if ($admin->rowCount() == 1) {
+            $row = $admin->fetch();
+            $id = $row['bizId'];
+            $name = $row['fullname'];
 
+            $passwordCreate = "INSERT INTO createPassword (BusId, token, expiryTime, type) VALUES (:bus, :token, :expire, :types)";
+            if($stmt = $conn->prepare($insert)){
+                
+                $stmt->bindParam(":token", $param_hash, PDO::PARAM_STR);
+                $stmt->bindParam(":bus", $param_bizId, PDO::PARAM_STR);
+                $stmt->bindParam(":expire", $param_date, PDO::PARAM_STR);
+                $stmt->bindParam(":types", $param_type, PDO::PARAM_STR);
+
+                $param_hash = $key;
+                $param_date = $expDate;
+                $param_bizId = $id;
+                $param_type = $action;
+
+                if($stmt->execute()){
+                    if (ResetPassword($name,$key,$email,$action)) {
+                        $_SESSION['success'] = "Please check your email for further instructions  ";
+                        return header("location:success.php");
+
+                    } else {
+                        $_SESSION['error'] = "Oops! Something went wrong. Please try again later.";
+                    }
+                } else{
+                    $_SESSION['error'] = "Oops! Something went wrong. Please try again later.";
+                }
+                
+                // Close statement
+                unset($stmt);
+    
+            } else {
+                $_SESSION['error'] = "Oops! Something went wrong. Please try again later.";
+            
+            }
+        } else{
+            $_SESSION['error'] = "Oops! User doesn't exist.";
         }
+    } else{
+        $_SESSION['error'] = "Oops! Something went wrong. Please try again later.";
     }
 
 
+} elseif (isset($_POST['resetPassword'])) {
+
+    $user = htmlspecialchars($_POST['bus']);
+    $password = htmlspecialchars($_POST['password']);
+    $ConfirmPassword = htmlspecialchars($_POST['confirm-password']);
+
+    $action = $_POST['action'];
+
+    $hashedpassword = password_hash($password, PASSWORD_DEFAULT);
+
+    $users = $conn->query("SELECT * FROM business WHERE bizId = '$user'");
+
+    if($password != $ConfirmPassword){
+        $_SESSION['reaetPassword'] = $user;
+        $_SESSION['error'] = "Oops! Something went wrong. Please try again later.";
+    } else {
+        if ($users->rowCount() == 1) {
+            
+            $updatestaff = "UPDATE business SET password = :pass WHERE bizId = :id";
+
+            $staffupdate->bindParam(":pass", $param_sub, PDO::PARAM_STR);
+            $staffupdate->bindParam(":id", $param_id, PDO::PARAM_STR);
+                
+            $param_sub = $hashedpassword;
+            $param_id =  $user;
+
+            if ($staffupdate->execute()) {
+                $delete = "DELETE FROM  createPassword WHERE BusId = :dmail AND type = :actions";
+                $prepare = $conn->prepare($delete);
+
+                $prepare->bindParam(":dmail", $param_id, PDO::PARAM_STR);
+                $prepare->bindParam(":actions", $param_act, PDO::PARAM_STR);
+                
+                $param_id = $user;
+                $param_id = $action;
+
+                if ($prepare->execute()) {
+                    $_SESSION['success'] = 'Good job, Your password has been reset, Please login to continue';
+                    return header('location:login.php');    
+                } else {
+                    $_SESSION['error'] = "Oops! Something went wrong. Please try again later.";
+                }
+            } else {
+                $_SESSION['error'] = "Oops! Something went wrong. Please try again later.";
+            }
+
+        }
+        
+    }
+
 } else {
-    # code...
+    $_SESSION['error'] = "Oops! Something went wrong. Please try again later.";
 }
 
 $conn = null;

@@ -7,6 +7,7 @@ include('config/head.php');
 <body>
 <div class="loader"></div>
   <div id="app">
+  
     <section class="section">
       <div class="container mt-5">
         <div class="row">
@@ -14,9 +15,21 @@ include('config/head.php');
             <div class="card card-primary">
               <div class="card-header">
                 <h4>Login</h4>
+               
+              </div>
+              <div class="p-2">
+                <?php
+                  if(isset($_SESSION['error'])){
+                    echo "<div class='alert alert-danger text-center mt20'>
+                        <span>".$_SESSION['error']."</span
+                    </div>";
+      
+                    unset($_SESSION['error']);
+                  }
+                ?>
               </div>
               <div class="card-body">
-                <form method="POST" action="action="actions.php?return=<?php echo basename(htmlspecialchars($_SERVER['PHP_SELF'])); ?>" class="needs-validation" novalidate="">
+                <form method="POST" action="actions.php?return=<?php echo basename(htmlspecialchars($_SERVER['PHP_SELF'])); ?>" class="needs-validation" novalidate="">
                   <div class="form-group">
                     <label for="email">Email</label>
                     <input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
