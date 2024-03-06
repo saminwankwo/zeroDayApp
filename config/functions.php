@@ -33,7 +33,7 @@
     }
 
 
-    function ResetPassword($fullname, $key, $email,){
+    function ResetPassword($fullname, $key, $email, $type){
         
         $output = "<div style='padding: 1%'>";
     
@@ -42,7 +42,7 @@
         $output .= '<br>';
         $output .= '<p> Welcome!';
         $output .= "<p>Please click on the following link to set your password.</p>";
-        $output .= '<p><a href="https://'. $_SERVER['HTTP_HOST'] .'/actions.php?key='.$key.'&email='.$email.'&action=set" target="_blank">Create Passord</a></p>';
+        $output .= '<p><a href="https://'. $_SERVER['HTTP_HOST'] .'/actions.php?key='.$key.'&email='.$email.'&action='.$type.'" target="_blank">Create Passord</a></p>';
         $output.='<p>Please be sure to copy the entire link into your browser. <b> The link will expire after 30 minuates for security reason.</b></p>';
         $output.='<p>If you did not request this forgotten password email, no action is needed, your password will not be set. However, you may want to log into your account and change your security password as someone may have guessed it.</p>';   	
         

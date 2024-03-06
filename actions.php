@@ -9,32 +9,6 @@ if(isset($_GET['return'])){
     $return = 'index.php';
 }
 
-// if (isset($_POST['signin'])) {
-//     $accessCode = htmlspecialchars($_POST['email']);
-//     $password = htmlspecialchars($_POST['password']);
-
-//     $check_email = Is_email($accessCode);
-
-//     if ($check_email) {
-//         $sql = $conn->query("SELECT * FROM OparaAdmin WHERE OparaAdminEmail = '$accessCode'");
-//         if(!$sql->rowCount()){
-//             $_SESSION['error'] = "This User does not exist";
-//         } else {
-//             $row = $sql->fetch(PDO::FETCH_ASSOC);
-//             if (password_verify($password, $row['OparaAdminPassword'])) {
-//                 $_SESSION['boss'] = $row['OparaAdminId'];
-//                 return header('location:app/admin');
-//             } else {
-//                  '<br>';
-//                 $_SESSION['error'] = "Incorrect Password, Please Try Again";
-//             }
-//         }
-
-//     }
-
-//     //TODO : check for accessCodes and phon numbers
-// }
-
 
 if (isset($_POST['submit'])) {
     $fullName = htmlspecialchars($_POST['full_name']);
@@ -47,6 +21,8 @@ if (isset($_POST['submit'])) {
     $key = md5(2418*2 .''.$fullName);
     $addKey = substr(md5(uniqid(rand(),1)),3,10);
     $key = $key . $addKey;
+
+    $type = 'set';
 
     $expFormat = mktime(date("H"), date("i"), date("s"), date("m")+ 30 ,date("d"), date("Y"));
     $expDate = date("Y-m-d H:i:s",$expFormat);
@@ -97,7 +73,7 @@ if (isset($_POST['submit'])) {
                                     $param_expire = $expDate;
 
                                     if($stmt->execute()){
-                                        if(ResetPassword($fullName, $key, $compEmail)){
+                                        if(ResetPassword($fullName, $key, $compEmail, $type)){
                                             return header("location:success.php");
                                         } else {
                                             $_SESSION['error'] = "Oops! Something went wrong. Please try again later.";
@@ -126,10 +102,11 @@ if (isset($_POST['submit'])) {
         }
     }
 
-} elseif (isset($_GET["key"]) && isset($_GET["email"])  && isset($_GET["action"]) && ($_GET["action"] == "set")) {
+} elseif (isset($_GET["key"]) && isset($_GET["email"])  && isset($_GET["action"])) {
     
     $key = $_GET["key"];
     $email = $_GET["email"];
+    $type = $_GET['action'];
 
     $resetsql = "SELECT * FROM createPassword WHERE token = '$key'";
     $reset = $conn->query($resetsql);
@@ -145,6 +122,7 @@ if (isset($_POST['submit'])) {
                 $row = $user->fetch();
                 $userId = $row['bizId'];
 
+                $_SESSION['action'] = $type;
                 $_SESSION['setpassword'] = $userId;
                 return header("location:setpass.php");
 
@@ -206,7 +184,48 @@ if (isset($_POST['submit'])) {
     }
     
 } elseif (isset($_POST['sigin'])) {
-    # code...
+    $accessCode = htmlspecialchars($_POST['email']);
+    $password = htmlspecialchars($_POST['password']);
+
+    $check_email = Is_email($accessCode);
+
+    if($check_email){
+        $sql = $conn->query("SELECT * FROM business WHERE bizEmail = '$accessCode'");
+        if(!$sql->rowCount()){
+            $_SESSION['error'] = "This User does not exist";
+        } else {
+            $row = $sql->fetch(PDO::FETCH_ASSOC);
+            if (password_verify($password, $row['password'])) {
+                $_SESSION['user'] = $row['bizId'];
+                return header('location:dashboard');
+            } else {
+                $_SESSION['error'] = "Incorrect Password, Please Try Again";
+            }
+        }
+    }
+
+} elseif (isset($_POST['forgotPass'])) {
+    $action = 'reset'; 
+    $email = htmlspecialchars($_POST['email']);
+
+    $expFormat = mktime(date("H"), date("i"), date("s"), date("m") ,date("d")+1, date("Y"));
+    $expDate = date("Y-m-d H:i:s",$expFormat);
+
+    $check_email = Is_email($email); 
+    
+    if($check_email){
+        $key = md5(2418*2 .''.$email);
+        $addKey = substr(md5(uniqid(rand(),1)),3,10);
+        $key = $key . $addKey;
+
+        $users = "SELECT * FROM business WHERE bizId = '$name'";
+        $a = $conn->query($adminsql);
+        if ($admin->rowCount() == 1) {
+
+        }
+    }
+
+
 } else {
     # code...
 }
