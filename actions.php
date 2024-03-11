@@ -43,7 +43,7 @@ if (isset($_POST['submit'])) {
                         $_SESSION['error'] = "User already exist";
                     } else {
                         unset($stmt);
-                        $insert = "INSERT INTO business (fullname, bizEmail, companyName,phoneNumber, securityType) VALUES (:fullname, :bizName, :bizEmail, :phone, :sec)";
+                        $insert = "INSERT INTO business (fullname, bizEmail, companyName,phoneNumber, securityType) VALUES (:fullname, :bizEmail, :bizName, :phone, :sec)";
                         
                         if($ins = $conn->prepare($insert)){
                             $ins->bindParam(":fullname", $param_fullname, PDO::PARAM_STR);
@@ -207,7 +207,7 @@ if (isset($_POST['submit'])) {
             $row = $sql->fetch(PDO::FETCH_ASSOC);
             if (password_verify($password, $row['password'])) {
                 $_SESSION['user'] = $row['bizId'];
-                return header('location:dashboard');
+                return header('location:dashboard.php');
             } else {
                 $_SESSION['error'] = "Incorrect Password, Please Try Again";
             }

@@ -101,7 +101,7 @@ include('config/head.php');
 					</div>
 
 					<div class="mb-4 text-muted text-center">
-						Already Registered? <a href="auth-login.php">Login</a>
+						Already Registered? <a href="login.php">Login</a>
 					</div>
 					
 
