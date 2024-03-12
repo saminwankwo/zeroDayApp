@@ -8,7 +8,6 @@ if($_SESSION['setpassword']){
     $user = $_SESSION['setpassword'];
 }
 
-// $_SESSION['action'] = 'reset'
 
 if($_SESSION['action']){
   $action = $_SESSION['action'];

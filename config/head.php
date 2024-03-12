@@ -16,3 +16,6 @@
   <link rel="stylesheet" href="config/assets/css/custom.css">
   <link rel='shortcut icon' type='image/x-icon' href='config/assets/img/favicon.ico' />
 </head>
+<body>
+<div class="loader"></div>
+<div id="app">

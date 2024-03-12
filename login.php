@@ -26,6 +26,14 @@ include('config/head.php');
       
                     unset($_SESSION['error']);
                   }
+
+                  if(isset($_SESSION['success'])){
+                    echo "<div class='alert alert-danger text-center mt20'>
+                        <span>".$_SESSION['success']."</span
+                    </div>";
+      
+                    unset($_SESSION['success']);
+                  }
                 ?>
               </div>
               <div class="card-body">
