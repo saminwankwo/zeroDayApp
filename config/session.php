@@ -20,5 +20,6 @@ try {
 
 $BizName = $boss['companyName'];
 $fullname = $boss['fullname'];
+$bizId = $_SESSION['user']
 
 ?>
