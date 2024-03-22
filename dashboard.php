@@ -43,6 +43,7 @@ $sql = $conn->query("SELECT * FROM websites WHERE bizId = '$bizId'");
               </div>
 				</div>
 				</section>
+		</section>
 				
 
 				<?php
@@ -50,7 +51,7 @@ $sql = $conn->query("SELECT * FROM websites WHERE bizId = '$bizId'");
 				echo 'show na';
 			}
 		
-		echo $bizId;
+		// echo $bizId;
 		?>
 
 		
@@ -435,7 +436,7 @@ $sql = $conn->query("SELECT * FROM websites WHERE bizId = '$bizId'");
 			</div>
 
 
-		</section>
+		</section>-->
 
 
 

@@ -1,4 +1,4 @@
-include('config/models.php');
+<!-- include('config/models.php'); -->
 <?php
 include('modals.php')
 ?>
