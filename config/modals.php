@@ -10,7 +10,7 @@
             </div>
 
             <div class="modal-body">
-                <form class="" method="POST">
+                <form class="" method="POST" action="actions.php?return=<?php echo basename(htmlspecialchars($_SERVER['PHP_SELF'])); ?>">
                     <div class="form-group">
                         <label>New Website</label>
                         
@@ -24,7 +24,8 @@
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-primary m-t-15 waves-effect">Save</button>
+                    <button type="submit" class="btn btn-primary m-t-15 waves-effect" name="addSite"><i class="far fa-save"></i> Save</button>
+                    <button type="button" class="btn btn-danger m-t-15 waves-effect float-right" data-dismiss="modal"><i class="fas fa-window-close"></i> close</button>
                 </form>
             </div>
         </div>

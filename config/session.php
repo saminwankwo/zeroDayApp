@@ -20,6 +20,6 @@ try {
 
 $BizName = $boss['companyName'];
 $fullname = $boss['fullname'];
-$bizId = $_SESSION['user']
-
+$bizId = $_SESSION['user'];
+$sn = 1;
 ?>

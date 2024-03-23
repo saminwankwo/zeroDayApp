@@ -1,6 +1,5 @@
 <?php
-session_start();
-include 'config/core.php';
+include 'config/session.php';
 
 // redirection 
 if(isset($_GET['return'])){
@@ -326,7 +325,25 @@ if (isset($_POST['submit'])) {
         
     }
 
-} else {
+} elseif (isset($_POST['addSite'])){
+    $site = htmlspecialchars($_POST['site']);
+
+    $insert = "INSERT INTO websites(website, bizId) VALUES (:web, :user)";
+    if($ins = $conn->prepare($insert)){
+        $ins->bindParam(":web", $param_webName, PDO::PARAM_STR);
+        $ins->bindParam(":user", $param_user, PDO::PARAM_STR);
+
+        $param_webName = $site;
+        $param_user = $bizId;
+
+        if($ins->execute()){
+            $_SESSION['success'] = " Record created successfuly";
+        } else {
+            $_SESSION['error'] = "Oops! Something went wrong. Please try again later.";
+        }
+    }
+
+}else {
     $_SESSION['error'] = "Oops! Something went wrong. Please try again later.";
 }
 
