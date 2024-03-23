@@ -21,7 +21,7 @@ if (isset($_POST['submit'])) {
     $addKey = substr(md5(uniqid(rand(),1)),3,10);
     $key = $key . $addKey;
 
-    $type = 'set';
+    $passwordType = 'set';
 
     $expFormat = mktime(date("H"), date("i"), date("s"), date("m")+ 30 ,date("d"), date("Y"));
     $expDate = date("Y-m-d H:i:s",$expFormat);
@@ -71,7 +71,7 @@ if (isset($_POST['submit'])) {
                                     $param_lastId = $last_id;
                                     $param_token = $key;
                                     $param_expire = $expDate;
-                                    $param_expire = $type;
+                                    $param_type = $passwordType;
 
                                     if($stmt->execute()){
                                         if(ResetPassword($fullName, $key, $compEmail, $type)){
