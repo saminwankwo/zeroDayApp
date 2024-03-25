@@ -1,6 +1,7 @@
 <?php
-session_start();
-include 'config/core.php';
+// session_start();
+// include 'config/core.php';
+include 'config/session.php';
 
 // redirection 
 if(isset($_GET['return'])){
@@ -332,7 +333,6 @@ if (isset($_POST['submit'])) {
 
 } elseif (isset($_POST['addSite'])){
     $site = htmlspecialchars($_POST['site']);
-    $bizId = $_SESSION['boss'];
 
 
     $insert = "INSERT INTO websites(website, bizId) VALUES (:web, :user)";

@@ -118,7 +118,7 @@ $sql = $conn->query("SELECT * FROM websites WHERE bizId = '$bizId'");
 														<td>'.$row['website'].'</td>
 														<td>'.date('M d, Y', strtotime($row['addTime'])) .'</td>
 														<td>
-														<a href = "viewDetails.php?view='.$row['webId'].'"  class="btn btn-success"><i class="far fa-eye"></i>  View Details</a> 
+														<a href = "viewDetails.php?view='.$row['webId'].'"  class="btn btn-success"><i class="far fa-eye"></i>  Monitor</a> 
 														<button class="btn btn-primary advanceDns data-toggle="tooltip" data-id="'.$row['webId'].'" data-placement="top" title="Configure Advance DNS"><i class="fas fa-globe"></i> Advance DNS</button>
 														<button class="btn btn-danger deleteaccount" data-toggle="tooltip" data-id="'.$row['webId'].'" data-placement="top" title="Delete Account"><i class=" fas fa-trash"></i>Delete</button>
 														</td>
@@ -151,7 +151,7 @@ $sql = $conn->query("SELECT * FROM websites WHERE bizId = '$bizId'");
 				
 				$('#table-1').on('click', '.advanceDns', function(e){
 					e.preventDefault();
-					$('#basicModal').modal('show');
+					$('#advanceDNS').modal('show');
 					var id = $(this).data('id');
 					getRow(id);
 				});

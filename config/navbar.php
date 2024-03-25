@@ -46,7 +46,7 @@
         <aside id="sidebar-wrapper">
           <div class="sidebar-brand">
             <a href="index.html"> <img alt="image" src="config/assets/img/logo.png" class="header-logo" /> <span
-                class="logo-name">Otika</span>
+                class="logo-name">CybZero Pro</span>
             </a>
           </div>
           <ul class="sidebar-menu">

@@ -32,7 +32,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="formModal" aria-hidden="true">
+<div class="modal fade" id="advanceDNS" tabindex="-1" role="dialog" aria-labelledby="formModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             
