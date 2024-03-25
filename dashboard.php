@@ -119,7 +119,7 @@ $sql = $conn->query("SELECT * FROM websites WHERE bizId = '$bizId'");
 														<td>'.date('M d, Y', strtotime($row['addTime'])) .'</td>
 														<td>
 														<a href = "viewDetails.php?view='.$row['webId'].'"  class="btn btn-success"><i class="far fa-eye"></i>  View Details</a> 
-														<button class="btn btn-primary deleteaccount" data-toggle="tooltip" data-id="'.$row['webId'].'" data-placement="top" title="Configure Advance DNS"><i class="fas fa-globe"></i> Advance DNS</button>
+														<button class="btn btn-primary advanceDns data-toggle="tooltip" data-id="'.$row['webId'].'" data-placement="top" title="Configure Advance DNS"><i class="fas fa-globe"></i> Advance DNS</button>
 														<button class="btn btn-danger deleteaccount" data-toggle="tooltip" data-id="'.$row['webId'].'" data-placement="top" title="Delete Account"><i class=" fas fa-trash"></i>Delete</button>
 														</td>
 													</tr>';
@@ -146,8 +146,32 @@ $sql = $conn->query("SELECT * FROM websites WHERE bizId = '$bizId'");
 		
 		?>
 
-		
+		<script>
+			$(function(){
+				
+				$('#table-1').on('click', '.advanceDns', function(e){
+					e.preventDefault();
+					$('#basicModal').modal('show');
+					var id = $(this).data('id');
+					getRow(id);
+				});
+  
 
+			});
+
+			function getRow(app){
+				$.ajax({
+					type:'POST',
+					url:'data.php',
+					data:{app:app},
+					dataType:  'json',
+					success: function(response){
+						console.log(response)
+					}
+				})
+			}
+
+		</script>
 			
 
 

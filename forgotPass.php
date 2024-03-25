@@ -33,10 +33,9 @@ include('config/head.php');
                     <input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
                   </div>
                   <div class="form-group">
-                    <button>Forgot Password</button>
-                    <!-- <button type="submit" class="btn btn-primary btn-lg btn-block" name="forgotPass" tabindex="4">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block" name="forgotPass" tabindex="4">
                       Fordddgot Password
-                    </button> -->
+                    </button>
                   </div>
                 </form>
               </div>
