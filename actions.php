@@ -75,7 +75,7 @@ if (isset($_POST['submit'])) {
                                     $param_type = $passwordType;
 
                                     if($stmt->execute()){
-                                        if(ResetPassword($fullName, $key, $compEmail, $type)){
+                                        if(ResetPassword($fullName, $key, $compEmail, $passwordType)){
                                             $_SESSION['success'] = "Please check your email for further instructions  ";
                                             return header("location:success.php");
                                         } else {
