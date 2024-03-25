@@ -1,5 +1,6 @@
 <?php
-include 'config/session.php';
+session_start();
+include 'config/core.php';
 
 // redirection 
 if(isset($_GET['return'])){
@@ -222,6 +223,7 @@ if (isset($_POST['submit'])) {
     $expDate = date("Y-m-d H:i:s",$expFormat);
 
     $check_email = Is_email($email); 
+
     
     if($check_email){
         $key = md5(2418*2 .''.$email);
@@ -327,11 +329,14 @@ if (isset($_POST['submit'])) {
 
 } elseif (isset($_POST['addSite'])){
     $site = htmlspecialchars($_POST['site']);
+    $bizId = $_SESSION['boss'];
+
 
     $insert = "INSERT INTO websites(website, bizId) VALUES (:web, :user)";
     if($ins = $conn->prepare($insert)){
         $ins->bindParam(":web", $param_webName, PDO::PARAM_STR);
         $ins->bindParam(":user", $param_user, PDO::PARAM_STR);
+
 
         $param_webName = $site;
         $param_user = $bizId;
@@ -348,5 +353,5 @@ if (isset($_POST['submit'])) {
 }
 
 $conn = null;
-header('location:' .$return);
+// header('location:' .$return);
 ?>
