@@ -28,7 +28,7 @@ include('config/head.php');
                   }
 
                   if(isset($_SESSION['success'])){
-                    echo "<div class='alert alert-danger text-center mt20'>
+                    echo "<div class='alert alert-success text-center mt20'>
                         <span>".$_SESSION['success']."</span
                     </div>";
       

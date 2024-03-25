@@ -109,6 +109,7 @@ if (isset($_POST['submit'])) {
 
 } elseif (isset($_GET["key"]) && isset($_GET["email"])  && isset($_GET["action"])) {
     
+    
     $key = $_GET["key"];
     $email = $_GET["email"];
     $type = $_GET['action'];
@@ -118,11 +119,12 @@ if (isset($_POST['submit'])) {
     if ($reset->rowCount() == 1) {
         $resetRow = $reset->fetch();
 
-        $expDate = $resetrow['expiryTime'];
-
+        $expDate = $resetRow['expiryTime'];
+        
         if($expDate >= $today){
             $findUser = "SELECT * FROM business WHERE bizEmail = '$email'";
             $user = $conn->query($findUser);
+            
             if($user->rowCount() == 1){
                 $row = $user->fetch();
                 $userId = $row['bizId'];
@@ -161,7 +163,8 @@ if (isset($_POST['submit'])) {
         if ($users->rowCount() == 1) {
             
             $updatestaff = "UPDATE business SET password = :pass WHERE bizId = :id";
-
+            $staffupdate = $conn->prepare($updatestaff);
+            
             $staffupdate->bindParam(":pass", $param_sub, PDO::PARAM_STR);
             $staffupdate->bindParam(":id", $param_id, PDO::PARAM_STR);
                 
@@ -353,5 +356,5 @@ if (isset($_POST['submit'])) {
 }
 
 $conn = null;
-// header('location:' .$return);
+header('location:' .$return);
 ?>
