@@ -24,7 +24,7 @@ if (isset($_POST['submit'])) {
 
     $passwordType = 'set';
 
-    $expFormat = mktime(date("H"), date("i"), date("s"), date("m")+ 30 ,date("d"), date("Y"));
+    $expFormat = mktime(date("H"), date("i"), date("s"), date("m") ,date("d") + 1, date("Y"));
     $expDate = date("Y-m-d H:i:s",$expFormat);
 
     if(!$agree){
@@ -132,7 +132,7 @@ if (isset($_POST['submit'])) {
                 return header("location:setpass.php");
 
             } else {
-                $_SESSION['error'] = "Oops! Something went wrong. Please try again later.";
+                $_SESSION['error'] = "Oops! Authention expired.";
             }
 
         } else {
