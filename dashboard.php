@@ -9,6 +9,30 @@ include('config/navbar.php');
 $sql = $conn->query("SELECT * FROM websites WHERE bizId = '$bizId'");
 
 
+	if(isset($_SESSION['error'])){
+	echo "<div class='alert alert-danger text-center mt20'>
+		<span>".$_SESSION['error']."</span
+	</div>";
+
+	unset($_SESSION['error']);
+	}
+
+	if(isset($_SESSION['success'])){
+	echo " 
+	<script>
+		function testName() {
+			iziToast.success({
+			title: 'Hello, world!',
+			message: 'This awesome plugin is made by iziToast',
+			position: 'topRight'
+			});
+		}
+	</script>
+	";
+
+	unset($_SESSION['success']);
+	}
+
 ?>
  <!-- Main Content -->
  <div class="main-content">
@@ -119,8 +143,8 @@ $sql = $conn->query("SELECT * FROM websites WHERE bizId = '$bizId'");
 														<td>'.date('M d, Y', strtotime($row['addTime'])) .'</td>
 														<td>
 														<a href = "viewDetails.php?view='.$row['webId'].'"  class="btn btn-success"><i class="far fa-eye"></i>  Monitor</a> 
-														<button class="btn btn-primary advanceDns data-toggle="tooltip" data-id="'.$row['webId'].'" data-placement="top" title="Configure Advance DNS"><i class="fas fa-globe"></i> Advance DNS</button>
-														<button class="btn btn-danger deleteaccount" data-toggle="tooltip" data-id="'.$row['webId'].'" data-placement="top" title="Delete Account"><i class=" fas fa-trash"></i>Delete</button>
+														<button class="btn btn-primary advanceDns data-toggle="tooltip" data-id="'.$row['webId'].'" data-placement="top" title="Configure Advance DNS"><i class="fas fa-globe"></i> Configure Advanced DNS</button> 
+														<button class="btn btn-danger deletesite" data-toggle="tooltip" data-id="'.$row['webId'].'" data-placement="top" title="Delete Website"><i class=" fas fa-trash"></i> Delete</button>
 														</td>
 													</tr>';
 												}
@@ -152,8 +176,17 @@ $sql = $conn->query("SELECT * FROM websites WHERE bizId = '$bizId'");
 				$('#table-1').on('click', '.advanceDns', function(e){
 					e.preventDefault();
 					$('#advanceDNS').modal('show');
-					var id = $(this).data('id');
+					let id = $(this).data('id');
+					getDNS(id);
 					getRow(id);
+				});
+
+				$('#table-1').on('click', '.deletesite', function(e){
+					e.preventDefault();
+					$('#deleteDNS').modal('show');
+					let id = $(this).data('id');
+					getRow(id);
+					getDNS(id);
 				});
   
 
@@ -166,7 +199,22 @@ $sql = $conn->query("SELECT * FROM websites WHERE bizId = '$bizId'");
 					data:{app:app},
 					dataType:  'json',
 					success: function(response){
-						console.log(response)
+						$('.web').val(response.webId);
+					}
+				})
+			}
+
+			function getDNS(DNS){
+				$.ajax({
+					type:'POST',
+					url:'data.php',
+					data:{DNS:DNS},
+					dataType:  'json',
+					success: function(response){
+						$('.dns').val(response.dnsId);
+						$('#dns1').val(response.DNS1)
+						$('#dns2').val(response.DNS2)
+						$('#dns3').val(response.DNS3)
 					}
 				})
 			}

@@ -334,7 +334,6 @@ if (isset($_POST['submit'])) {
 } elseif (isset($_POST['addSite'])){
     $site = htmlspecialchars($_POST['site']);
 
-
     $insert = "INSERT INTO websites(website, bizId) VALUES (:web, :user)";
     if($ins = $conn->prepare($insert)){
         $ins->bindParam(":web", $param_webName, PDO::PARAM_STR);
@@ -351,7 +350,94 @@ if (isset($_POST['submit'])) {
         }
     }
 
-}else {
+} elseif (isset($_POST['addDNS'])) {
+    
+    $siteId = htmlspecialchars($_POST['website']);
+    $DNS1 = htmlspecialchars($_POST['dns-1']);
+    $DNS2 = htmlspecialchars($_POST['dns-2']);
+    $DNS3 = htmlspecialchars($_POST['dns-3']);
+
+    $DNSID = htmlspecialchars($_POST['DNS']);
+
+    if ($DNSID) {
+        $updateDNS = "UPDATE webDNS SET DNS1 = :dns1, DNS2 = :dns2, DNS3 = :dns3 WHERE dnsId = :id";
+        $DNSUpdate = $conn->prepare($updateDNS);
+
+        $DNSUpdate->bindParam(":dns1", $param_dns1, PDO::PARAM_STR);
+        $DNSUpdate->bindParam(":dns2", $param_dns2, PDO::PARAM_STR);
+        $DNSUpdate->bindParam(":dns3", $param_dns3, PDO::PARAM_STR);
+        $DNSUpdate->bindParam(":id", $param_id, PDO::PARAM_STR);
+        
+        $param_dns1 = $DNS1;
+        $param_dns2 = $DNS2;
+        $param_dns3 = $DNS3;
+        $param_id = $DNSID;
+
+        if($DNSUpdate->execute()){
+            $_SESSION['success'] = " Record created successfuly";
+        } else {
+            $_SESSION['error'] = "Oops! Something went wrong. Please try again later.";
+        }
+
+    } else {
+
+        $addDns = "INSERT INTO webDNS(DNS1, DNS2, DNS3, webId, addBy) VALUES(:dns1, :dns2, :dns3, :web, :addby)";
+    
+        if($insert = $conn->prepare($addDns)){
+    
+            $insert->bindParam(":dns1", $param_dns1, PDO::PARAM_STR);
+            $insert->bindParam(":dns2", $param_dns2, PDO::PARAM_STR);
+            $insert->bindParam(":dns3", $param_dns3, PDO::PARAM_STR);
+            $insert->bindParam(":web", $param_web, PDO::PARAM_STR);
+            $insert->bindParam(":addby", $param_addBy, PDO::PARAM_STR);
+    
+            $param_dns1 = $DNS1;
+            $param_dns2 = $DNS2;
+            $param_dns3 = $DNS3;
+            $param_web = $siteId;
+            $param_addBy = $bizId;
+    
+            if($insert->execute()){
+                $_SESSION['success'] = " Record created successfuly";
+            } else {
+                $_SESSION['error'] = "Oops! Something went wrong. Please try again later.";
+            }
+    
+        } else {
+            $_SESSION['error'] = "Oops! Something went wrong. Please try again later.";
+        }
+        
+    }
+
+} elseif (isset($_POST['deleteSite'])) {
+    
+    $siteId = htmlspecialchars($_POST['website']);
+    $DNSID = htmlspecialchars($_POST['DNS']);
+    
+    if($DNSID){
+        $sqlDNS = "DELETE FROM  webDNS WHERE dnsId = :id";
+        $DNSstmt = $conn->prepare($sqlDNS);
+
+        $DNSstmt->bindParam(":id", $param_id, PDO::PARAM_STR);
+        $param_id = $DNSID;
+        
+        $DNSstmt->execute();
+
+    } 
+
+    $sql = "DELETE FROM  websites WHERE webId = :id";
+    $stmt = $conn->prepare($sql);
+
+    $stmt->bindParam(":id", $param_id, PDO::PARAM_STR);
+    $param_id = $siteId;
+    
+    if ($stmt->execute()) {
+        $_SESSION['success'] = "Record Deleted successfully";
+    } else {
+        $_SESSION['error'] = "Something went wrong. Please try again later.";
+    }
+
+} else {
     $_SESSION['error'] = "Oops! Something went wrong. Please try again later.";
 }
 
