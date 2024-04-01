@@ -6,6 +6,13 @@ include('config/navbar.php');
 
 // echo 'Welcome to dashboard';/
 
+if(isset($_GET['range'])){
+	$range = $_GET['range'];
+	$ex = explode(' - ', $range);
+	$from = date('Y-m-d', strtotime($ex[0]));
+	$to = date('Y-m-d', strtotime($ex[1]));
+}
+
 $sql = $conn->query("SELECT * FROM websites WHERE bizId = '$bizId'");
 
 
@@ -84,21 +91,74 @@ $sql = $conn->query("SELECT * FROM websites WHERE bizId = '$bizId'");
                     				<div class="row ">
                       					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
                         					<div class="card-content">
-												<h5 class="font-15">New Booking</h5>
-												<h2 class="mb-3 font-18">258</h2>
-												<p class="mb-0"><span class="col-green">10%</span> Increase</p>
+												<h5 class="font-15">Websites</h5>
+												<h2 class="mb-3 font-18"><?php echo $sql->rowCount();?></h2>
+									
 											</div>
                       					</div>
-                      					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
-											<div class="banner-img">
-												<img src="config/assets/img/banner/1.png" alt="">
-											</div>
-                      					</div>
+                      					
                     				</div>
                   				</div>
                 			</div>
               			</div>
             		</div>
+
+					<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              			<div class="card">
+                			<div class="card-statistic-4">
+                  				<div class="align-items-center justify-content-between">
+                    				<div class="row ">
+                      					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                        					<div class="card-content">
+												<h5 class="font-15">protected Network</h5>
+												<h2 class="mb-3 font-18">0</h2>
+											</div>
+                      					</div>
+                      					
+                    				</div>
+                  				</div>
+                			</div>
+              			</div>
+            		</div>
+
+
+					<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              			<div class="card">
+                			<div class="card-statistic-4">
+                  				<div class="align-items-center justify-content-between">
+                    				<div class="row ">
+                      					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                        					<div class="card-content">
+												<h5 class="font-15">protected Ips</h5>
+												<h2 class="mb-3 font-18">0</h2>
+											</div>
+                      					</div>
+                      					
+                    				</div>
+                  				</div>
+                			</div>
+              			</div>
+            		</div>
+
+					<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              			<div class="card">
+                			<div class="card-statistic-4">
+                  				<div class="align-items-center justify-content-between">
+                    				<div class="row ">
+                      					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                        					<div class="card-content">
+												<h5 class="font-15">DNS Zones</h5>
+												<h2 class="mb-3 font-18">0</h2>
+											</div>
+                      					</div>
+                      					
+                    				</div>
+                  				</div>
+                			</div>
+              			</div>
+            		</div>
+
+
 				</div>
 
 				<div class="row">
@@ -111,6 +171,17 @@ $sql = $conn->query("SELECT * FROM websites WHERE bizId = '$bizId'");
 							<div class="card-body">
 								<div class="table-responsive">
 					  				<button type="button" class="btn btn-primary mt-4 float-right" data-toggle="modal" data-target="#basicModal">Add New website </button>
+
+									  <form method="POST" class="form-inline" id="payForm">
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="icon icon-calendar"></i>
+											</div>
+											<input type="text" class="form-control pull-right col-sm" id="reservation" name="date_range" value="<?php echo (isset($_GET['range'])) ? $_GET['range'] : $range_from.' - '.$range_to; ?>">
+										</div>
+
+										<button type="button" class="btn btn-success btn-sm btn-flat m-2" id="payroll"><i class="icon icon-print"></i> Export PDF </button>
+									</form>
 
 									<table class="table table-striped" id="table-1">
 										<thead>
@@ -188,6 +259,15 @@ $sql = $conn->query("SELECT * FROM websites WHERE bizId = '$bizId'");
 					getRow(id);
 					getDNS(id);
 				});
+
+
+			$('#payroll').click(function(e){
+            e.preventDefault();
+            $('#payForm').attr('target', '_blank');
+
+            $('#payForm').attr('action', 'pdf/pdf_summary.php');
+            $('#payForm').submit();
+        });
   
 
 			});
