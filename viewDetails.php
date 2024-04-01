@@ -65,7 +65,7 @@ if(isset($_GET['view'])){
             $.ajax({
         method: 'GET',
         url: 'https://api.api-ninjas.com/v1/urllookup?url=' + url,
-        headers: { 'X-Api-Key': 'YOUR_API_KEY'},
+        headers: { 'X-Api-Key': 'at_bDzFMsvyHe6B6dPUGRsWZmW6lLe8o'},
         contentType: 'application/json',
         beforeSend: function() {
             // Show loading text in modal

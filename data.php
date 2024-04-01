@@ -16,6 +16,10 @@ if (isset($_POST['app'])) {
    $stmt = $conn->query("SELECT * FROM webDNS WHERE webId = '$id'");
    $row = $stmt->fetch(PDO::FETCH_ASSOC); 
    echo json_encode($row);
+
+} elseif (isset($_POST['result'])) {
+   echo $id = htmlspecialchars($_POST['result']);
+   echo json_encode($id);
 }
 
 ?>
