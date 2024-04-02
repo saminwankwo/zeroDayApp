@@ -18,7 +18,15 @@ if (isset($_POST['app'])) {
    echo json_encode($row);
 
 } elseif (isset($_POST['result'])) {
-   echo $id = htmlspecialchars($_POST['result']);
+   $id = $_POST['result'];
+
+   
+   // $jsonData = $_POST['result'];
+   // $resultObject = json_decode($jsonData, true); // Decode into associative array (optional)
+   
+   // echo json_encode("Parsed object property (example): " . $resultObject['propertyName']." ");
+    // Now you can access the properties of the $resultObject like any PHP object;
+   //  echo "Parsed object property (example): " . $resultObject['propertyName'];
    echo json_encode($id);
 }
 

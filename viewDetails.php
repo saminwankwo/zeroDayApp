@@ -49,10 +49,10 @@ if(isset($_GET['view'])){
             </section>
 
         <?php
-        echo 'testing 1';
+    } else {
+      
     }
 
-    echo 'testing 2';
 }
 ?>
 
@@ -76,13 +76,17 @@ if(isset($_GET['view'])){
             $('.modal-body').html('<pre>' + JSON.stringify(result, null, 2) + '</pre>');
             // Update modal title
             $('.modal-title').text('Result');
+
+            let jsonData = JSON.stringify(result);
+            const url2 = jsonData.url
             
             // Send the result to a PHP file
             $.ajax({
                 method: 'POST',
                 url: 'data.php',
-                data: { result: result },
+                data: { result: url2 },
                 success: function(response) {
+                  console.log(response)
                     console.log('Result sent to PHP file');
                 },
                 error: function(jqXHR) {
@@ -97,9 +101,7 @@ if(isset($_GET['view'])){
             $('.modal-title').text('Error');
         }
     });
-            // console.log('rest')
-            // console.log(url)
-            // console.log(newStr)
+            
         })
     })
 

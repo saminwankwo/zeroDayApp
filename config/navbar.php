@@ -54,14 +54,14 @@
             <li class="dropdown active">
               <a href="dashboard.php" class="nav-link"><i data-feather="monitor"></i><span>Website</span></a>
             </li>
-            <li class="dropdown">
+            <!-- <li class="dropdown">
               <a href="#" class="menu-toggle nav-link has-dropdown"><i
                   data-feather="briefcase"></i><span>WAF</span></a>
               <ul class="dropdown-menu">
                 <li><a class="nav-link" href="widget-chart.html"></a></li>
                 <li><a class="nav-link" href="widget-data.html"></a></li>
               </ul>
-            </li>
+            </li> -->
             <li class="dropdown">
               <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>API Security</span></a>
               <ul class="dropdown-menu">
@@ -135,7 +135,7 @@
 
 
             <li class="menu-header">Analytics</li>    
-            <li><a class="nav-link" href="timeline.html"><i data-feather="sliders"></i><span>Attack Analytics</span></a></li>
+            <li><a class="nav-link" href="analytic.html"><i data-feather="sliders"></i><span>Attack Analytics</span></a></li>
             <li><a class="nav-link" href="timeline.html"><i data-feather="sliders"></i><span>Security Event</span></a></li>
             <li><a class="nav-link" href="timeline.html"><i data-feather="sliders"></i><span>TroubleShooting</span></a></li>
             <li><a class="nav-link" href="timeline.html"><i data-feather="sliders"></i><span>Reputation Intelligence</span></a></li>
