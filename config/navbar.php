@@ -135,7 +135,7 @@
 
 
             <li class="menu-header">Analytics</li>    
-            <li><a class="nav-link" href="analytic.html"><i data-feather="sliders"></i><span>Attack Analytics</span></a></li>
+            <li><a class="nav-link" href="analytics.html"><i data-feather="sliders"></i><span>Attack Analytics</span></a></li>
             <li><a class="nav-link" href="timeline.html"><i data-feather="sliders"></i><span>Security Event</span></a></li>
             <li><a class="nav-link" href="timeline.html"><i data-feather="sliders"></i><span>TroubleShooting</span></a></li>
             <li><a class="nav-link" href="timeline.html"><i data-feather="sliders"></i><span>Reputation Intelligence</span></a></li>
