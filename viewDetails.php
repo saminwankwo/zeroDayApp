@@ -27,6 +27,79 @@ if(isset($_GET['view'])){
             <div class="card">
               <div class="card-header">
                 <h4><?php echo $row['website']; ?> </h4>
+                <?php
+                    $api_key = '9nLDbt1XJjdrETbNd6qBdg==v5SypDjkBib7KqNu';
+                    $domain = substr($row['website'], 4);
+                    
+                    $url = 'https://api.api-ninjas.com/v1/dnslookup?domain=' . urlencode($domain);
+                    $options = [
+                      'http' => [
+                        'method' => 'GET',
+                        'header' => 'X-Api-Key: ' . $api_key . "\r\n" .
+                                    'Content-Type: application/json',
+                      ],
+                    ];
+
+                    $context = stream_context_create($options);
+                    $response = file_get_contents($url, false, $context);
+
+                    if($response === false){
+                      echo 'Error fetching data';
+                    } else {
+                      $result = json_decode($response, true);
+                      if($result){
+                    try {
+
+                          $insert = "INSERT INTO details (webId) VALUES (:fullname)";
+                          if($ins = $conn->prepare($insert)){
+                              $ins->bindParam(":fullname", $param_fullname, PDO::PARAM_STR);
+                              $param_fullname = $id;
+
+                              if($ins->execute()){
+                                $last_id = $conn->lastInsertId();
+                                $stmt = $conn->prepare('INSERT INTO dns_results 
+                                (detailsId , record_type, value) VALUES 
+                                (:domain, :record_type, :value)');
+                                $more = $conn->prepare('INSERT INTO dns_results2 (
+                                    detailsId , record_type, mname, rname, serial, refresh, retry, expire, ttl) VALUES 
+                                    (:domain, :record_type, :mname, :rname, :serial, :refresh, :retry, :expire, :ttl)');
+
+                                foreach($result as $record){
+                                    if($record['record_type'] == 'A'){
+                                        $stmt->execute([
+                                          'domain' => $last_id,
+                                          'record_type' => $record['record_type'],
+                                          'value' => $record['value'],
+                                      ]);
+                                    } elseif ($record['record_type'] == 'NS') {
+                                        $stmt->execute([
+                                            'domain' => $last_id,
+                                            'record_type' => $record['record_type'],
+                                            'value' => $record['value'],
+                                        ]);
+                                    } elseif ($record['record_type'] == 'SOA') {
+                                        $more->execute([
+                                            'domain' => $last_id,
+                                            'record_type' => $record['record_type'],
+                                            'mname' => $record['mname'],
+                                            'rname' => $record['rname'],
+                                            'serial' => $record['serial'],
+                                            'refresh' => $record['refresh'],
+                                            'retry' => $record['retry'],
+                                            'expire' => $record['expire'],
+                                            'ttl' => $record['ttl'],
+                                        ]);
+                                    }
+                                }
+
+                          }
+                        }
+                        } catch (PDOException $e) {
+                            echo 'Error: ' . $e->getMessage();
+                        } } else {
+                            echo 'Error decoding JSON.';
+                        }}
+                ?>
               </div>
               <div class="card-body">
                 <div class="empty-state" data-height="400">
@@ -58,51 +131,43 @@ if(isset($_GET['view'])){
 
 <script>
     $(function(){
-        $('#scan').click(function(){
-            let url = $(this).data('id')
-            let newStr = url.slice(4);
+        $('#scan').click(async function(){
+            // console.log('the data ', $())
+            let BttData = $(this).data('id')
+            const domain = BttData.slice(4);
+            console.log('button data', domain)
+            const apiKey = '9nLDbt1XJjdrETbNd6qBdg==v5SypDjkBib7KqNu'
+            const url = `https://api.api-ninjas.com/v1/dnslookup?domain=${encodeURIComponent(domain)}`;
 
-            $.ajax({
-        method: 'GET',
-        url: 'https://api.api-ninjas.com/v1/urllookup?url=' + url,
-        headers: { 'X-Api-Key': '9nLDbt1XJjdrETbNd6qBdg==v5SypDjkBib7KqNu'},
-        contentType: 'application/json',
-        beforeSend: function() {
-            // Show loading text in modal
-            $('.modal-title').text('Loading...');
-        },
-        success: function(result) {
-            // Display API response in modal body
-            $('.modal-body').html('<pre>' + JSON.stringify(result, null, 2) + '</pre>');
-            // Update modal title
-            $('.modal-title').text('Result');
+            try {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'X-Api-Key': apiKey,
+                        'Content-Type': 'application/json'
+                    }
+                })
 
-            let jsonData = JSON.stringify(result);
-            const url2 = jsonData.url
-            
-            // Send the result to a PHP file
-            $.ajax({
-                method: 'POST',
-                url: 'data.php',
-                data: { result: url2 },
-                success: function(response) {
-                  console.log(response)
-                    console.log('Result sent to PHP file');
-                },
-                error: function(jqXHR) {
-                    console.error('Error sending result to PHP file');
+                if(!response.ok){
+                    throw new Error('Network response was not ok');
                 }
-            });
-        },
-        error: function(jqXHR) {
-            // Display error message in modal body
-            $('.modal-body').html('<div class="alert alert-danger" role="alert">Error: ' + jqXHR.responseText + '</div>');
-            // Update modal title
-            $('.modal-title').text('Error');
-        }
-    });
-            
+
+                const result = await response.json();
+                
+                const modalBody = document.getElementById('dnsResult');
+                modalBody.innerHTML = '<pre>' + JSON.stringify(result, null, 2) + '</pre>';
+
+                $('#dnsModal').modal('show');
+
+                location.reload(true)
+
+            } catch (error) {
+                console.log('Error:', error)
+            }
+         
         })
+        
+         
     })
 
 </script>

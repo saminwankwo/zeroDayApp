@@ -119,12 +119,14 @@ include('modals.php')
   <!-- <script src="config/assets/js/page/toastr.js"></script> -->
   <!-- <script src="config/assets/bundles/sweetalert/sweetalert.min.js"></script>
   <!-- <script src="conassets/bundles/prism/prism.js"></script> -->
-
-  <script src="config/assets/bundles/amcharts4/core.js"></script>
+  <script src="config/assets/bundles/apexcharts/apexcharts.min.js"></script>
+  <!-- Page Specific JS File -->
+  <script src="config/assets/js/page/chart-apexcharts.js"></script>
+  <!-- <script src="config/assets/bundles/amcharts4/core.js"></script>
   <script src="config/assets/bundles/amcharts4/charts.js"></script>
   <script src="config/assets/bundles/amcharts4/animated.js"></script>
   <script src="config/assets/bundles/amcharts4/worldLow.js"></script>
-  <script src="config/assets/bundles/amcharts4/maps.js"></script>
+  <script src="config/assets/bundles/amcharts4/maps.js"></script> -->
   <!-- Page Specific JS File -->
   <script src="config/assets/js/page/chart-amchart.js"></script>
 
