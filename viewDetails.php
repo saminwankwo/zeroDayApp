@@ -123,7 +123,141 @@ if(isset($_GET['view'])){
 
         <?php
     } else {
-      
+        $select = $conn->query("SELECT * FROM details LEFT JOIN dns_results2 ON details.detailsId=dns_results2.detailsId WHERE webId = '$id' ");
+        print_r($rows = $select->fetch(PDO::FETCH_ASSOC));
+
+        $detail = $rows['detailsId'];
+        $check = $conn->query("SELECT * FROM dns_results WHERE detailsId = '$detail' ");
+
+        ?>
+        <section class="section-body">
+            <div class="row">
+                <div class="col col-md col-sm">
+                    <div class="card">
+                        <div class="card-header">
+                            Request
+                        </div>
+                        <div class="card-body">0</div>
+                    </div>
+                </div>
+
+                <div class="col col-md col-sm">
+                    <div class="card">
+                        <div class="card-header">
+                            Human Request
+                        </div>
+                        <div class="card-body">0</div>
+                    </div>
+                </div>
+
+                <div class="col col-md col-sm">
+                    <div class="card">
+                        <div class="card-header">
+                            BandWidth
+                        </div>
+                        <div class="card-body">0</div>
+                    </div>
+                </div>
+
+                <div class="col col-md col-sm">
+                    <div class="card">
+                        <div class="card-header">
+                            Request passed to origin
+                        </div>
+                        <div class="card-body">0</div>
+                    </div>
+                </div>
+
+                <div class="col col-md col-sm">
+                    <div class="card">
+                        <div class="card-header">
+                            Request from cache
+                        </div>
+                        <div class="card-body">0</div>
+                    </div>
+                </div>
+
+                <div class="col col-md col-sm">
+                    <div class="card">
+                        <div class="card-header">
+                            Request Blocked
+                        </div>
+                        <div class="card-body">0</div>
+                    </div>
+                </div>
+
+                <div class="col col-md col-sm">
+                    <div class="card">
+                        <div class="card-header">
+                            Enable Waiting
+                        </div>
+                        <div class="card-body">0 </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header"></div>
+                        <div class="card-body">
+                            graphs goes here 
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-header">Site Details</div>
+                        <div class="card-body table-responsive"> 
+                            <table class="table">
+                                <tr>
+                                    <td>Record type</td>
+                                    <td>Record Value</td>
+                                    <td>mname</td>
+                                    <td>rname</td>
+                                    <td>serial</td>
+                                    <td>refresh</td>
+                                    <td>retry</td>
+                                    <td>expire</td>
+                                </tr>
+                                <?php
+                                    while($rowing = $check->fetch()){
+                                        echo '<tr>
+                                        <td>'.$rowing['record_type'].'</td>
+                                        <td>'.$rowing['value'].'</td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        </tr>';
+                                    }
+
+                                    echo '<tr>
+                                        <td>'.$rows['record_type'].'</td>
+                                        <td> - </td>
+                                        <td>'.$rows['mname'].'</td>
+                                        <td>'.$rows['rname'].'</td>
+                                        <td>'.$rows['serial'].'</td>
+                                        <td>'.$rows['refresh'].'</td>
+                                        <td>'.$rows['retry'].'</td>
+                                        <td>'.$rows['expire'].'</td>
+                                        <td>'.$rows['ttl'].'</td>
+                                    </tr>'
+                                    // echo 
+                                ?>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+      <?php
     }
 
 }
@@ -158,8 +292,9 @@ if(isset($_GET['view'])){
                 modalBody.innerHTML = '<pre>' + JSON.stringify(result, null, 2) + '</pre>';
 
                 $('#dnsModal').modal('show');
-
-                location.reload(true)
+                setTimeout(() => {
+                    location.reload(true);
+                }, 5000);
 
             } catch (error) {
                 console.log('Error:', error)
