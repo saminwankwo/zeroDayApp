@@ -18,7 +18,7 @@
   <link rel='shortcut icon' type='image/x-icon' href='config/assets/img/favicon.ico' />
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 <div class="loader"></div>

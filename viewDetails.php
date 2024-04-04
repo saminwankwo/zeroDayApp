@@ -124,7 +124,7 @@ if(isset($_GET['view'])){
         <?php
     } else {
         $select = $conn->query("SELECT * FROM details LEFT JOIN dns_results2 ON details.detailsId=dns_results2.detailsId WHERE webId = '$id' ");
-        print_r($rows = $select->fetch(PDO::FETCH_ASSOC));
+        $rows = $select->fetch(PDO::FETCH_ASSOC);
 
         $detail = $rows['detailsId'];
         $check = $conn->query("SELECT * FROM dns_results WHERE detailsId = '$detail' ");
@@ -199,12 +199,41 @@ if(isset($_GET['view'])){
 
             <div class="row">
                 <div class="col">
-                    <div class="card">
-                        <div class="card-header"></div>
-                        <div class="card-body">
-                            graphs goes here 
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">Request/sec</div>
+                                <div class="card-body">
+                                    <canvas id="trafficChart"></canvas>
+ 
+                                </div>
+                            </div>
                         </div>
+
+
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">BandWidth</div>
+                                <div class="card-body">
+                                    <canvas id="bandwith"></canvas>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">Response Time</div>
+                                <div class="card-body">
+                                    <canvas id="response"></canvas>
+
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
+                    
+
                 </div>
 
                 <div class="col-6">
@@ -261,6 +290,9 @@ if(isset($_GET['view'])){
     }
 
 }
+
+
+
 ?>
 
 <script>
@@ -304,6 +336,90 @@ if(isset($_GET['view'])){
         
          
     })
+    
+function fetchDataAndRenderChart() {
+    fetch('generate_traffic.php')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            const labels = data.map(entry => entry.hour);
+            const values = data.map(entry => entry.traffic);
+
+            const ctx = document.getElementById('trafficChart').getContext('2d');
+            if (window.chart) {
+                window.chart.destroy(); // Destroy previous chart instance
+            }
+            window.chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Traffic Data',
+                        data: values,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+// Initial fetch and render
+fetchDataAndRenderChart();
+
+
+function fetchDataAndRenderChart() {
+    fetch('generate_traffic.php')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            const labels = data.map(entry => entry.hour);
+            const values = data.map(entry => entry.traffic);
+
+            const ctx = document.getElementById('bandwidth').getContext('2d');
+            if (window.chart) {
+                window.chart.destroy(); // Destroy previous chart instance
+            }
+            window.chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Traffic Data',
+                        data: values,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+// Initial fetch and render
+fetchDataAndRenderChart();
+
+// Update every 20 seconds
+setInterval(fetchDataAndRenderChart, 20000);
 
 </script>
 
