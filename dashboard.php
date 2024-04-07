@@ -172,7 +172,7 @@ $sql = $conn->query("SELECT * FROM websites WHERE bizId = '$bizId'");
 								<div class="table-responsive">
 					  				<button type="button" class="btn btn-primary mt-4 float-right" data-toggle="modal" data-target="#basicModal">Add New website </button>
 
-									  <form method="POST" class="form-inline" id="payForm">
+									  <!-- <form method="POST" class="form-inline" id="payForm">
 										<div class="input-group">
 											<div class="input-group-addon">
 												<i class="icon icon-calendar"></i>
@@ -181,7 +181,7 @@ $sql = $conn->query("SELECT * FROM websites WHERE bizId = '$bizId'");
 										</div>
 
 										<button type="button" class="btn btn-success btn-sm btn-flat m-2" id="payroll"><i class="icon icon-print"></i> Export PDF </button>
-									</form>
+									</form> -->
 
 									<table class="table table-striped" id="table-1">
 										<thead>

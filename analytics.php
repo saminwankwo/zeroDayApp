@@ -107,6 +107,27 @@ include('config/navbar.php');
                             </div>
                         </div>
 
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">Bot Attack</div>
+                                <div class="card-body">
+                                    <canvas id="response"></canvas>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">Bot Request</div>
+                                <div class="card-body">
+                                    <canvas id="response"></canvas>
+
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
         </div>
         </section></div>
