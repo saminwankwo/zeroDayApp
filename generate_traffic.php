@@ -2,10 +2,10 @@
 // Generate random traffic data
 function generateRandomData() {
     $data = [];
-    for ($i = 0; $i < 3; $i++) {
+    for ($i = 0; $i < 1; $i++) {
         $data[] = [
             'hour' => $i,
-            'traffic' => rand(1, 2) // Random number for traffic
+            'traffic' => rand(50, 200) // Random number for traffic
         ];
     }
     return $data;

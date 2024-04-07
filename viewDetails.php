@@ -337,7 +337,7 @@ if(isset($_GET['view'])){
          
     })
     
-function fetchDataAndRenderChart() {
+function fetchDataAndRenderChart1() {
     fetch('generate_traffic.php')
         .then(response => response.json())
         .then(data => {
@@ -375,7 +375,7 @@ function fetchDataAndRenderChart() {
 }
 
 // Initial fetch and render
-fetchDataAndRenderChart();
+fetchDataAndRenderChart1();
 
 
 function fetchDataAndRenderChart() {
@@ -386,7 +386,7 @@ function fetchDataAndRenderChart() {
             const labels = data.map(entry => entry.hour);
             const values = data.map(entry => entry.traffic);
 
-            const ctx = document.getElementById('bandwidth').getContext('2d');
+            const ctx = document.getElementById('bandwith').getContext('2d');
             if (window.chart) {
                 window.chart.destroy(); // Destroy previous chart instance
             }
@@ -416,9 +416,10 @@ function fetchDataAndRenderChart() {
 }
 
 // Initial fetch and render
-fetchDataAndRenderChart();
+// fetchDataAndRenderChart();
 
 // Update every 20 seconds
+setInterval(fetchDataAndRenderChart1, 20000);
 setInterval(fetchDataAndRenderChart, 20000);
 
 </script>
