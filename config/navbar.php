@@ -30,9 +30,9 @@
               <a href="profile.php" class="dropdown-item has-icon"> <i class="far
 										fa-user"></i> Profile
               </a> 
-              <a href="#" class="dropdown-item has-icon"> <i class="fas fa-cog"></i>
+              <!-- <a href="#" class="dropdown-item has-icon"> <i class="fas fa-cog"></i>
                 Settings
-              </a>
+              </a> -->
               <div class="dropdown-divider"></div>
               <a href="logout.php" class="dropdown-item has-icon text-danger"> <i class="fas fa-sign-out-alt"></i>
                 Logout
@@ -45,7 +45,7 @@
       <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
           <div class="sidebar-brand">
-            <a href="index.html"> <img alt="image" src="config/assets/img/logo.png" class="header-logo" /> <span
+            <a href="dashbord.php"> <img alt="image" src="config/assets/img/logo.png" class="header-logo" /> <span
                 class="logo-name">CybZero Pro</span>
             </a>
           </div>

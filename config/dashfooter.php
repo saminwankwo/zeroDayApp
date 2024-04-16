@@ -107,6 +107,8 @@ include('modals.php')
     </div>
   </div>
 
+  
+
 <script src="config/assets/js/app.min.js"></script>
   
   <script src="config/assets/bundles/jquery-pwstrength/jquery.pwstrength.min.js"></script>
@@ -132,7 +134,29 @@ include('modals.php')
 
   <script src="config/assets/js/scripts.js"></script>
  
+  <script>
+		</script>
   <script src="config/assets/js/custom.js"></script>
+  <script>
+	function preview_image(event){
+    var reader = new FileReader();
+    reader.onload = function(){
+        var output = document.getElementById('output_image');
+        output.src = reader.result;
+    }
+    reader.readAsDataURL(event.target.files[0]);
+}
+
+$("#file").bind('change', function(){
+    
+    if(this.files[0].size/1024/1024 > 1){
+        $("#filemessage").html(" File is too Large");
+    }else{
+        $("#filemessage").html("");
+    }
+})
+
+  </script>
 </body>
 
 

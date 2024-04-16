@@ -127,25 +127,6 @@
     </div>
 </div>
 
-<!-- <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Loading...</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Content will be loaded here -->
-            <!-- </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal">Save</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div> --> -->
 
 <div class="modal fade" id="dnsModal" tabindex="-1" role="dialog" aria-labelledby="dnsModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -161,6 +142,42 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="changeimage">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><b>Change Display Image</b></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+
+                <div class="modal-body">
+                    <form class="form-horizontal" method="POST" action="actions.php?return=<?php echo basename(htmlspecialchars($_SERVER['PHP_SELF'])); ?>" enctype="multipart/form-data">
+                    
+                        <div class="form-group row">
+                            <label for="title" class="ti col-sm control-label">Upload Image</label>
+                            <div class="form-group">
+
+                                <div class="col col-md-3">
+                                    <img id="output_image"/>	
+                                </div>
+                            </div>
+
+                            <div class="col-sm">
+                                <input type="file" accept="image/*" id="file" name="file" onchange="preview_image(event)" class="form-control-file">
+                            </div>
+                        </div>
+                    
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-flat pull-left" data-dismiss="modal"><i class="icon-close"></i> Close</button>
+                    <button type="submit" class="btn btn-primary btn-flat" name="profilepic"><i class="icon-arrow-up"></i> Update</button>
+                    </form>
                 </div>
             </div>
         </div>
