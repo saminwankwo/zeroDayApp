@@ -438,7 +438,7 @@ if (isset($_POST['submit'])) {
 } elseif (isset($_POST['profilepic'])) {
    
     $img = $_FILES['file']['name'];
-    $photo = $today.$regnum.$img;
+    $photo = $today.$img;
 
     $target_dir = "upload/profile/";
 
@@ -456,28 +456,33 @@ if (isset($_POST['submit'])) {
                 
                 if ($_FILES["file"]["size"] > 5000000) {
                     $_SESSION['error'] = "Sorry, This File is too Large";
+                    echo "Sorry, This File is too Large";
                 }  else {
                     if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" && $imagefiletype != 'pdf'){
                         $_SESSION['error'] = "Sorry, Only PNG, JPG, JPEG and GIF allowed!";
                     } else {
 
+
                         if (move_uploaded_file($_FILES['file']['tmp_name'], $target_file)) {
                             
-                            $sql = "UPDATE hospitals SET hosImage = :picture WHERE hospitalId = :id";
+                            $sql = "UPDATE business SET bizImage = :picture WHERE bizId = :id";
                             $stmt = $conn->prepare($sql);
                             
                             $stmt->bindParam(":picture", $param_name, PDO::PARAM_STR);
                             $stmt->bindParam(":id", $param_id, PDO::PARAM_STR);
 
                             $param_name = $photo;
-                            $param_id = $hospital;
+                            $param_id = $bizId;
 
                             if ($stmt->execute()) {
                                 $_SESSION['success'] = "Image Upload Successful";
+                                echo "Image Upload Successful";
                             } else {
+                                echo "see";
                                 $_SESSION['error'] = "Something went wrong. Please try again later.";
                             }
                         } else {
+                            echo "edededed";
                             $_SESSION['error'] = 'Something went wrong. Please try again';
                         }
                     }
@@ -485,14 +490,17 @@ if (isset($_POST['submit'])) {
             }
 
         } else {
+            echo "not an image";
             $_SESSION['error'] = "Sorry, The file You tried to upload is not an image";
         }
         
 
     } else {
+        echo "not an image 2";
         $_SESSION['error'] = "Sorry, The file You tried to upload is not an image";
     }
 } else {
+    echo "something happended";
     $_SESSION['error'] = "Oops! Something went wrong. Please try again later.";
 }
 

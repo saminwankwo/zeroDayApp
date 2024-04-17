@@ -90,7 +90,7 @@ include('config/navbar.php');
                       </div>
 
                       <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="profile-tab2">
-                        <form method="post" class="needs-validation">
+                        <form method="post" class="needs-validation" action="">
                           <div class="card-header">
                             <h4>Edit Profile</h4>
                           </div>
@@ -100,7 +100,7 @@ include('config/navbar.php');
                                 <label>First Name</label>
                                 <input type="text" class="form-control" value="John">
                                 <div class="invalid-feedback">
-                                  Please fill in the first name
+                                  
                                 </div>
                               </div>
                               <div class="form-group col-md-6 col-12">
