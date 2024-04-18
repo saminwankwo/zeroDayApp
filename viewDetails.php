@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once('tcpdf/tcpdf.php');
 include('config/session.php');
 include('config/head.php');
 include('config/navbar.php');
@@ -131,6 +132,9 @@ if(isset($_GET['view'])){
 
         ?>
         <section class="section-body">
+        <button onclick="exportToPdf()" class="btn btn-primary mt-4">Generate PDF</button>
+        <br>
+        <br>
             <div class="row">
                 <div class="col col-md col-sm">
                     <div class="card">
@@ -294,6 +298,7 @@ if(isset($_GET['view'])){
 
 
 ?>
+    <script src="html2pdf/dist/html2pdf.min.js"></script>
 
 <script>
     $(function(){
@@ -422,6 +427,15 @@ function fetchDataAndRenderChart() {
 setInterval(fetchDataAndRenderChart1, 20000);
 setInterval(fetchDataAndRenderChart, 20000);
 
+
+function exportToPdf() {
+            const element = document.querySelector('.main-content');
+            html2pdf(element, {
+                margin: 1,
+                filename: 'report.pdf',
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            });
+        }
 </script>
 
 

@@ -499,8 +499,66 @@ if (isset($_POST['submit'])) {
         echo "not an image 2";
         $_SESSION['error'] = "Sorry, The file You tried to upload is not an image";
     }
+} elseif (isset($_POST['passwords'])){
+    $currentPass = htmlspecialchars($_POST['current-password']);
+    $newPassword = htmlspecialchars($_POST['password']);
+    $confirmPassword = htmlspecialchars($_POST['confirm-password']);
+
+    $sql = $conn->query("SELECT * FROM business WHERE bizId = '$bizId'");
+    $row = $sql->fetch(PDO::FETCH_ASSOC); 
+
+    if($newPassword == $confirmPassword){
+        if(password_verify($currentPass, $row['password'])){
+            $hashedpassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
+            $sql = "UPDATE business SET password = :pass WHERE bizId = :id";
+            $stmt = $conn->prepare($sql);
+
+            $stmt->bindParam(":id", $param_id, PDO::PARAM_STR);
+            $stmt->bindParam(":pass", $param_pass, PDO::PARAM_STR);
+            
+            $param_id = $bizId;
+            $param_pass = $newPassword;
+
+            if ($stmt->execute()) {
+                $_SESSION['success'] = "You have change your password successfully ";
+            } else {
+                $_SESSION['error'] = "Something went wrong. Please try again later.";
+            }
+        } else {
+            $_SESSION['error'] = "Current password incorrect, Please Enter your current password";
+        }
+
+    } else {
+        $_SESSION['error'] = "Password and confirm password do not match";
+    }
+
+} elseif (isset($_POST['editProfile'])) {
+    
+    $fullName = htmlspecialchars($_POST['fullName']);
+    $comp = htmlspecialchars($_POST['companyName']);
+    $phone = htmlspecialchars($_POST['phone']);
+
+    $sql = "UPDATE  business SET fullname = :titlename, companyName = :describe, phoneNumber = :phone WHERE bizId = :id";
+    $stmt = $conn->prepare($sql);
+
+    $stmt->bindParam(":titlename", $param_name, PDO::PARAM_STR);
+    $stmt->bindParam(":describe", $param_desc, PDO::PARAM_STR);
+    $stmt->bindParam(":phone", $param_phone, PDO::PARAM_STR);
+    $stmt->bindParam(":id", $param_id, PDO::PARAM_STR);
+
+    $param_name = $fullName;
+    $param_desc = $comp;
+    $param_phone = $phone;
+    $param_id = $bizId;
+
+    if ($stmt->execute()) {
+        $_SESSION['success'] = "Profile Updated Successfully";
+    } else {
+        $_SESSION['error'] = "Something went wrong. Please try again later.";
+    }
+    
 } else {
-    echo "something happended";
     $_SESSION['error'] = "Oops! Something went wrong. Please try again later.";
 }
 
