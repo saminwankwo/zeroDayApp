@@ -45,7 +45,7 @@
       <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
           <div class="sidebar-brand">
-            <a href="dashbord.php"> <img alt="image" src="config/assets/img/logo.png" class="header-logo" /> <span
+            <a href="dashboard.php"> <img alt="image" src="config/assets/img/logo.png" class="header-logo" /> <span
                 class="logo-name">CybZero Pro</span>
             </a>
           </div>
