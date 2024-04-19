@@ -1,6 +1,5 @@
 <?php
 session_start();
-require_once('tcpdf/tcpdf.php');
 include('config/session.php');
 include('config/head.php');
 include('config/navbar.php');
@@ -132,7 +131,7 @@ if(isset($_GET['view'])){
 
         ?>
         <section class="section-body">
-        <button onclick="exportToPdf()" class="btn btn-primary mt-4">Generate PDF</button>
+        <button onclick="exportToPdf()">Generate Report</button>
         <br>
         <br>
             <div class="row">
@@ -298,7 +297,6 @@ if(isset($_GET['view'])){
 
 
 ?>
-    <script src="html2pdf/dist/html2pdf.min.js"></script>
 
 <script>
     $(function(){
@@ -429,13 +427,15 @@ setInterval(fetchDataAndRenderChart, 20000);
 
 
 function exportToPdf() {
-            const element = document.querySelector('.main-content');
-            html2pdf(element, {
-                margin: 1,
-                filename: 'report.pdf',
-                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-            });
-        }
+  const doc = new jsPDF();
+  const title = document.querySelector('.card-header h4').textContent; // Assuming the website name is in h4 tag with class card-header
+  const content = document.querySelector('.section-body').innerHTML; // Assuming content resides in section-body
+
+  doc.text(title, 10, 10); // Add website name as title
+  doc.html(content, {callback: function(pdf) {
+      pdf.save('reports.pdf'); // Set filename
+  }});
+}
 </script>
 
 
