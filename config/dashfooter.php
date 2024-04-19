@@ -108,6 +108,7 @@ include('modals.php')
   </div>
 
   
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> -->
 
 <script src="config/assets/js/app.min.js"></script>
   

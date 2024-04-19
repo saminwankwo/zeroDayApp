@@ -131,9 +131,10 @@ if(isset($_GET['view'])){
 
         ?>
         <section class="section-body">
-        <button onclick="exportToPdf()">Generate Report</button>
+        <button onclick="exportToPdf()" data-id="<?php echo $row['website'] ?> " >Generate Report</button>
         <br>
         <br>
+        <div class="convert-to-pdf">
             <div class="row">
                 <div class="col col-md col-sm">
                     <div class="card">
@@ -287,6 +288,8 @@ if(isset($_GET['view'])){
                 </div>
 
             </div>
+
+            </div>
         </section>
 
       <?php
@@ -304,7 +307,6 @@ if(isset($_GET['view'])){
             // console.log('the data ', $())
             let BttData = $(this).data('id')
             const domain = BttData.slice(4);
-            console.log('button data', domain)
             const apiKey = '9nLDbt1XJjdrETbNd6qBdg==v5SypDjkBib7KqNu'
             const url = `https://api.api-ninjas.com/v1/dnslookup?domain=${encodeURIComponent(domain)}`;
 
@@ -427,14 +429,22 @@ setInterval(fetchDataAndRenderChart, 20000);
 
 
 function exportToPdf() {
-  const doc = new jsPDF();
-  const title = document.querySelector('.card-header h4').textContent; // Assuming the website name is in h4 tag with class card-header
-  const content = document.querySelector('.section-body').innerHTML; // Assuming content resides in section-body
+    let BttData = "<?php echo $row['website'] ?> ";
+
+    
+  const doc = new jsPDF('p', 'pt', 'A4');
+  const title = 'Traffic Report for ' + BttData
+  const content = document.querySelector('.convert-to-pdf'); // Assuming content resides in section-body
 
   doc.text(title, 10, 10); // Add website name as title
-  doc.html(content, {callback: function(pdf) {
-      pdf.save('reports.pdf'); // Set filename
-  }});
+  html2canvas(content, { useCORS: true }).then(canvas => {
+    const imageData = canvas.toDataURL('image/png');
+    const imgWidth = 210; // A4 size
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    doc.addImage(imageData, 'PNG', 10, 20, imgWidth, imgHeight);
+    doc.save('reports.pdf'); // Set filename
+  });
 }
 </script>
 
