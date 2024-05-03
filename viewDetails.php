@@ -28,7 +28,7 @@ if(isset($_GET['view'])){
               <div class="card-header">
                 <h4><?php echo $row['website']; ?> </h4>
                 <?php
-                    $api_key = '9nLDbt1XJjdrETbNd6qBdg==v5SypDjkBib7KqNu';
+                    $api_key = 'NeE0AJ1N8s9mB1qqf7Mcqw==zNfA61IquKvF2cGS';
                     $domain = substr($row['website'], 4);
                     
                     $url = 'https://api.api-ninjas.com/v1/dnslookup?domain=' . urlencode($domain);
@@ -307,7 +307,7 @@ if(isset($_GET['view'])){
             // console.log('the data ', $())
             let BttData = $(this).data('id')
             const domain = BttData.slice(4);
-            const apiKey = '9nLDbt1XJjdrETbNd6qBdg==v5SypDjkBib7KqNu'
+            const apiKey = 'NeE0AJ1N8s9mB1qqf7Mcqw==zNfA61IquKvF2cGS'
             const url = `https://api.api-ninjas.com/v1/dnslookup?domain=${encodeURIComponent(domain)}`;
 
             try {
